@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const Product = ({ image, title }) => {
   return (
-    <div class="grid justify-items-center py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
+    <div class="grid justify-items-center py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
       <a href="#">
         <Image
           class="rounded-lg"
