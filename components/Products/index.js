@@ -1,26 +1,25 @@
 import Image from "next/image"
 
-const Product = ({ image, title }) => {
+const Product = ({ image, title, description }) => {
   return (
-    <div class="grid justify-items-center py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
-      <a href="#">
+    <div className="grid justify-items-center py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <div className="px-5 grid justify-items-center">
         <Image
-          class="rounded-lg"
+          className="rounded-lg"
           src={image}
           alt=""
           width="200px"
           height="200px"
         />
-      </a>
-      <div class="p-5">
-        <a href="#">
-          <h5 class="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">
-            {title}
-          </h5>
-        </a>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Here are the biggest enterprise technology acquisitions of 2021 so
-          far, in reverse chronological order.
+
+        <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
+          {title}
+        </h5>
+      </div>
+
+      <div className="p-5 overflow-scroll h-28">
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
+          {description}
         </p>
       </div>
     </div>

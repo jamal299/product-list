@@ -4,11 +4,10 @@ import { useEffect, useState } from "react"
 import styles from "../styles/Home.module.css"
 import Product from "../components/Products"
 
-const tileOptions = [2, 3, 4, 5, 6]
-
 export default function Home() {
   const [productList, setProductList] = useState([])
   const [noOfTilesToShow, setnoOfTilesToShow] = useState(6)
+  const tileOptions = [2, 3, 4, 6]
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
@@ -21,9 +20,10 @@ export default function Home() {
       fields.push(
         <div
           key={i}
-          className={`w-1/${numberOfTiles} ${
-            i % 2 === 0 ? "bg-gray-400" : "bg-gray-500"
-          } h-12`}
+          // className={`w-1/${numberOfTiles} ${
+          //   i % 2 === 0 ? "bg-gray-400" : "bg-gray-500"
+          // } `}
+          className={`bg-gray-400`}
         />
       )
     }
@@ -39,7 +39,7 @@ export default function Home() {
             <div
               onClick={() => setnoOfTilesToShow(tile)}
               key={tile}
-              class="flex w-[64px] ml-4 cursor-pointer"
+              className="flex w-[64px] ml-4 cursor-pointer bg-red-200"
             >
               {returnTiles(tile)}
             </div>
@@ -47,13 +47,14 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`grid grid-cols-2 md:grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4`}
+        className={`grid sm:grid-cols-2 md:grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4`}
       >
         {productList.map((product) => (
           <Product
             key={product.id}
             image={product.image}
             title={product.title}
+            description={product.description}
           />
         ))}
       </div>
