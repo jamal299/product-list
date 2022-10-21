@@ -8,4 +8,9 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  safelist: [
+    {
+      pattern: /grid-cols-(3|4|5|6)/,
+    },
+  ],
 }

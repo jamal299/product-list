@@ -35,8 +35,6 @@ export default function Home() {
     return fields
   }
 
-  const columnsStyle = ` sm:grid-cols-2 grid-cols-${noOfTilesToShow} `
-
   return (
     <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
       <div className="hidden md:block">
