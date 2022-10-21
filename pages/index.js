@@ -24,7 +24,7 @@ export default function Home() {
       fields.push(
         <div
           key={i}
-          className={`w-5 border ${
+          className={`w-6 border ${
             noOfTilesToShow === numberOfTiles
               ? "border-indigo-800"
               : "border-gray-400"
@@ -36,9 +36,9 @@ export default function Home() {
   }
 
   const columnsStyle = `md:grid-cols-${noOfTilesToShow}`
-  console.log({ columnsStyle })
+
   return (
-    <div className="p-4 flex flex-col items-center w-full">
+    <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
       <div className="hidden md:block">
         <div className="flex w-full">
           Select Layout
