@@ -1,11 +1,16 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export default function ProductDetail({ product }) {
   console.log({ product })
   const { image, title, description, price, rating } = product
   if (!product) return null
   return (
-    <div className="dark:bg-gray-900 w-full h-screen flex justify-items-center items-center justify-center">
+    <div className="dark:bg-gray-900 w-full h-screen flex flex-col justify-items-center items-center justify-center">
+      <Link href={"/"} passHref>
+        Home
+      </Link>
+
       <div className="grid justify-items-center m-2 py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
         <div className="px-5 grid justify-items-center">
           <Image
