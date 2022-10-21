@@ -78,7 +78,7 @@ export default function Home({ products }) {
       >
         {productList.map((product) => (
           <Link key={product.id} href={`/${product.id}`}>
-            <div>
+            <div className="grid justify-items-center m-2 py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
               <Product
                 key={product.id}
                 image={product.image}
