@@ -5,12 +5,13 @@ import styles from "../styles/Home.module.css"
 import Product from "../components/Products"
 
 import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
+import Link from "next/link"
 
-export default function Home() {
-  const [productList, setProductList] = useState([])
+export default function Home({ products }) {
+  const [productList, setProductList] = useState(products)
   const [noOfTilesToShow, setnoOfTilesToShow] = useState(6)
   const tileOptions = [2, 3, 4, 5, 6]
-  const [sortOrder, setSort] = useState("desc")
+  const [sortOrder, setSort] = useState("asc")
 
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products?sort=${sortOrder}`)
@@ -59,7 +60,10 @@ export default function Home() {
         Sort
         <div
           className="cursor-pointer"
-          onClick={() => setSort(sortOrder === "desc" ? "asc" : "desc")}
+          onClick={() => {
+            // router.push({ pathname: "", query: { sortBy: sortOrder } })
+            setSort(sortOrder === "desc" ? "asc" : "desc")
+          }}
         >
           {sortOrder === "desc" ? (
             <BiUpArrowAlt size={24} />
@@ -70,31 +74,54 @@ export default function Home() {
       </div>
 
       <div
-        className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid`}
+        className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid cursor-pointer`}
       >
         {productList.map((product) => (
-          <Product
-            key={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            description={product.description}
-          />
+          <Link key={product.id} href={`/${product.id}`}>
+            <div>
+              <Product
+                key={product.id}
+                image={product.image}
+                title={product.title}
+                price={product.price}
+                description={product.description}
+              />
+            </div>
+          </Link>
         ))}
       </div>
       <div
-        className={`grid grid-cols-2 justify-items-center gap-1 p-4 md:hidden grid`}
+        className={`grid grid-cols-2 justify-items-center gap-1 p-4 md:hidden grid cursor-pointer`}
       >
         {productList.map((product) => (
-          <Product
-            key={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            description={product.description}
-          />
+          <Link key={product.id} href={`/${product.id}`} passHref>
+            <div>
+              <Product
+                key={product.id}
+                image={product.image}
+                title={product.title}
+                price={product.price}
+                description={product.description}
+              />
+            </div>
+          </Link>
         ))}
       </div>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch("https://fakestoreapi.com/products")
+  const products = await res.json()
+
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      products,
+    },
+  }
 }
