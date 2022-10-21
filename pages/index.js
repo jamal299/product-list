@@ -4,15 +4,19 @@ import { useEffect, useState } from "react"
 import styles from "../styles/Home.module.css"
 import Product from "../components/Products"
 
+import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
+
 export default function Home() {
   const [productList, setProductList] = useState([])
   const [noOfTilesToShow, setnoOfTilesToShow] = useState(6)
-  const tileOptions = [2, 3, 4, 6]
+  const tileOptions = [2, 3, 4, 5, 6]
+  const [sortOrder, setSort] = useState("desc")
+
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+    fetch(`https://fakestoreapi.com/products?sort=${sortOrder}`)
       .then((res) => res.json())
       .then((json) => setProductList(json))
-  }, [])
+  }, [sortOrder])
 
   const returnTiles = (numberOfTiles) => {
     const fields = []
@@ -20,40 +24,62 @@ export default function Home() {
       fields.push(
         <div
           key={i}
-          // className={`w-1/${numberOfTiles} ${
-          //   i % 2 === 0 ? "bg-gray-400" : "bg-gray-500"
-          // } `}
-          className={`bg-gray-400`}
+          className={`w-5 border ${
+            noOfTilesToShow === numberOfTiles
+              ? "border-indigo-800"
+              : "border-gray-400"
+          } w-full m-1 rounded-sm `}
         />
       )
     }
     return fields
   }
-  console.log({ noOfTilesToShow })
+
+  const columnsStyle = `md:grid-cols-${noOfTilesToShow}`
+  console.log({ columnsStyle })
   return (
-    <div>
+    <div className="p-4 flex flex-col items-center w-full">
       <div className="hidden md:block">
         <div className="flex w-full">
-          Select
+          Select Layout
           {tileOptions.map((tile) => (
             <div
               onClick={() => setnoOfTilesToShow(tile)}
               key={tile}
-              className="flex w-[64px] ml-4 cursor-pointer bg-red-200"
+              className={`flex ml-4 cursor-pointer border ${
+                noOfTilesToShow === tile
+                  ? "border-indigo-800"
+                  : "border-gray-400"
+              }   grid-cols-${tile} rounded-md hover:bg-gray-100 dark:hover:bg-gray-700`}
             >
               {returnTiles(tile)}
             </div>
           ))}
         </div>
       </div>
+      <div className="flex align-center my-2 ">
+        Sort
+        <div
+          className="cursor-pointer"
+          onClick={() => setSort(sortOrder === "desc" ? "asc" : "desc")}
+        >
+          {sortOrder === "desc" ? (
+            <BiUpArrowAlt size={24} />
+          ) : (
+            <BiDownArrowAlt size={24} />
+          )}
+        </div>
+      </div>
+
       <div
-        className={`grid sm:grid-cols-2 md:grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4`}
+        className={`grid grid-cols-2 ${columnsStyle} justify-items-center gap-1 p-4`}
       >
         {productList.map((product) => (
           <Product
             key={product.id}
             image={product.image}
             title={product.title}
+            price={product.price}
             description={product.description}
           />
         ))}
