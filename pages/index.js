@@ -28,14 +28,14 @@ export default function Home() {
             noOfTilesToShow === numberOfTiles
               ? "border-indigo-800"
               : "border-gray-400"
-          } w-full m-1 rounded-sm `}
+          } m-1 rounded-sm `}
         />
       )
     }
     return fields
   }
 
-  const columnsStyle = `md:grid-cols-${noOfTilesToShow}`
+  const columnsStyle = ` sm:grid-cols-2 grid-cols-${noOfTilesToShow} `
 
   return (
     <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
@@ -72,7 +72,20 @@ export default function Home() {
       </div>
 
       <div
-        className={`grid grid-cols-2 ${columnsStyle} justify-items-center gap-1 p-4`}
+        className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid`}
+      >
+        {productList.map((product) => (
+          <Product
+            key={product.id}
+            image={product.image}
+            title={product.title}
+            price={product.price}
+            description={product.description}
+          />
+        ))}
+      </div>
+      <div
+        className={`grid grid-cols-2 justify-items-center gap-1 p-4 md:hidden grid`}
       >
         {productList.map((product) => (
           <Product

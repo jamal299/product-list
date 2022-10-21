@@ -16,10 +16,12 @@ Open [http://localhost:3000](http://localhost:3000) or the port in which the app
 
 The following is a list of the capabilities of this repository:
 
+```
 - Products are listed from a FakeAPI.
 - The products are displayed with their respective title, description, image and price.
 - The product list shows 2 columns on mobile.
 - The number of product tiles to be shown (column wise) can be selected for larger devices.
 - The product list can be sorted.
 - The layout color changes based on the colour scheme of the system.
+```
 

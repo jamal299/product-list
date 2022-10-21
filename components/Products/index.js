@@ -19,7 +19,7 @@ const Product = ({ image, title, description, price }) => {
       </div>
 
       <div className="p-5 overflow-scroll h-28 mb-3 max-w-full font-normal text-gray-700 dark:text-gray-400 ">
-        {description}
+        <p className="">{description}</p>
       </div>
     </div>
   )
