@@ -1,9 +1,5 @@
-import Head from "next/head"
-import Image from "next/image"
 import { useEffect, useState } from "react"
-import styles from "../styles/Home.module.css"
 import Product from "../components/Products"
-
 import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
 import Link from "next/link"
 
@@ -61,7 +57,6 @@ export default function Home({ products }) {
         <div
           className="cursor-pointer"
           onClick={() => {
-            // router.push({ pathname: "", query: { sortBy: sortOrder } })
             setSort(sortOrder === "desc" ? "asc" : "desc")
           }}
         >
