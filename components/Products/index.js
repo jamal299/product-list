@@ -8,19 +8,19 @@ const Product = ({ image, title, description, price }) => {
           className="rounded-lg"
           src={image}
           alt=""
-          width="200px"
-          height="200px"
+          width="240px"
+          height="240px"
         />
 
-        <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
+        <h5 className="mb-2 text-xs font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
           {title}
           {`- $${price}`}
         </h5>
       </div>
-
+      {/* 
       <div className="p-5 overflow-scroll h-28 mb-3 max-w-full font-normal text-gray-700 dark:text-gray-400 ">
         <p className="">{description}</p>
-      </div>
+      </div> */}
     </>
   )
 }
