@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react"
+import { Select } from "antd"
 import Product from "../components/Products"
 import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
 import Link from "next/link"
 
-export default function Home({ products }) {
+const { Option } = Select
+export default function Home({ products, categories }) {
   const [productList, setProductList] = useState(products)
   const [noOfTilesToShow, setnoOfTilesToShow] = useState(6)
   const tileOptions = [2, 3, 4, 5, 6]
   const [sortOrder, setSort] = useState("asc")
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products?sort=${sortOrder}`)
-      .then((res) => res.json())
-      .then((json) => setProductList(json))
+    const fetchProducts = async () => {
+      const res = await fetch(
+        `https://fakestoreapi.com/products?sort=${sortOrder}`
+      )
+      const products = await res.json()
+      setProductList(products)
+    }
+    fetchProducts()
   }, [sortOrder])
 
   const returnTiles = (numberOfTiles) => {
@@ -67,6 +74,31 @@ export default function Home({ products }) {
           )}
         </div>
       </div>
+      <Select
+        style={{
+          width: 200,
+        }}
+        onChange={async (value) => {
+          if (value === "Reset") {
+            var res = await fetch(`https://fakestoreapi.com/products/`)
+          } else {
+            var res = await fetch(
+              `https://fakestoreapi.com/products/category/${value}`
+            )
+          }
+
+          const products = await res.json()
+          setProductList(products)
+        }}
+        placeholder="Select a filter"
+      >
+        <Option value="Reset">Select a filter</Option>
+        {categories.map((category) => (
+          <Option key={category} value={category}>
+            <span className="capitalize"> {category}</span>
+          </Option>
+        ))}
+      </Select>
 
       <div
         className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid cursor-pointer`}
@@ -109,10 +141,12 @@ export default function Home({ products }) {
 export async function getStaticProps() {
   const res = await fetch("https://fakestoreapi.com/products")
   const products = await res.json()
-
+  const res1 = await fetch("https://fakestoreapi.com/products/categories")
+  const categories = await res1.json()
   return {
     props: {
       products,
+      categories,
     },
   }
 }
