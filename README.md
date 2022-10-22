@@ -22,6 +22,8 @@ The following is a list of the capabilities of this repository:
 - The product list shows 2 columns on mobile.
 - The number of product tiles to be shown (column wise) can be selected for larger devices.
 - The product list can be sorted.
-- The layout color changes based on the colour scheme of the system.
+- The product list can be filtered based on the categories of each product.
+- Product selection can displays the Product details page.
+- The app colour theme changes based on the colour scheme of the system.
 ```
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { Select } from "antd"
-import Product from "../components/Products"
-import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
 import Link from "next/link"
+import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
+import Product from "../components/Products"
+import Banner from "../components/Banner"
 
 const { Option } = Select
 export default function Home({ products, categories }) {
@@ -40,100 +41,104 @@ export default function Home({ products, categories }) {
   }
 
   return (
-    <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
-      <div className="hidden md:block">
-        <div className="flex w-full">
-          Select Layout
-          {tileOptions.map((tile) => (
-            <div
-              onClick={() => setnoOfTilesToShow(tile)}
-              key={tile}
-              className={`flex ml-4 cursor-pointer border ${
-                noOfTilesToShow === tile
-                  ? "border-indigo-800"
-                  : "border-gray-400"
-              }   grid-cols-${tile} rounded-md hover:bg-gray-100 dark:hover:bg-gray-700`}
-            >
-              {returnTiles(tile)}
-            </div>
+    <div>
+      <Banner position={"top"} />
+      <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
+        <div className="hidden md:block">
+          <div className="flex w-full">
+            Select Layout
+            {tileOptions.map((tile) => (
+              <div
+                onClick={() => setnoOfTilesToShow(tile)}
+                key={tile}
+                className={`flex ml-4 cursor-pointer border ${
+                  noOfTilesToShow === tile
+                    ? "border-indigo-800"
+                    : "border-gray-400"
+                }   grid-cols-${tile} rounded-md hover:bg-gray-100 dark:hover:bg-gray-700`}
+              >
+                {returnTiles(tile)}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex align-center my-2 ">
+          Sort
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              setSort(sortOrder === "desc" ? "asc" : "desc")
+            }}
+          >
+            {sortOrder === "desc" ? (
+              <BiUpArrowAlt size={24} />
+            ) : (
+              <BiDownArrowAlt size={24} />
+            )}
+          </div>
+        </div>
+        <Select
+          style={{
+            width: 200,
+          }}
+          onChange={async (value) => {
+            if (value === "Reset") {
+              var res = await fetch(`https://fakestoreapi.com/products/`)
+            } else {
+              var res = await fetch(
+                `https://fakestoreapi.com/products/category/${value}`
+              )
+            }
+
+            const products = await res.json()
+            setProductList(products)
+          }}
+          placeholder="Select a filter"
+        >
+          <Option value="Reset">Select a filter</Option>
+          {categories.map((category) => (
+            <Option key={category} value={category}>
+              <span className="capitalize"> {category}</span>
+            </Option>
+          ))}
+        </Select>
+
+        <div
+          className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid cursor-pointer`}
+        >
+          {productList.map((product) => (
+            <Link key={product.id} href={`/${product.id}`}>
+              <div className="grid justify-items-center m-2 py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <Product
+                  key={product.id}
+                  image={product.image}
+                  title={product.title}
+                  price={product.price}
+                  description={product.description}
+                />
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div
+          className={`grid grid-cols-2 justify-items-center gap-1 p-4 md:hidden grid cursor-pointer`}
+        >
+          {productList.map((product) => (
+            <Link key={product.id} href={`/${product.id}`} passHref>
+              <div>
+                <Product
+                  key={product.id}
+                  image={product.image}
+                  title={product.title}
+                  price={product.price}
+                  description={product.description}
+                />
+              </div>
+            </Link>
           ))}
         </div>
       </div>
-      <div className="flex align-center my-2 ">
-        Sort
-        <div
-          className="cursor-pointer"
-          onClick={() => {
-            setSort(sortOrder === "desc" ? "asc" : "desc")
-          }}
-        >
-          {sortOrder === "desc" ? (
-            <BiUpArrowAlt size={24} />
-          ) : (
-            <BiDownArrowAlt size={24} />
-          )}
-        </div>
-      </div>
-      <Select
-        style={{
-          width: 200,
-        }}
-        onChange={async (value) => {
-          if (value === "Reset") {
-            var res = await fetch(`https://fakestoreapi.com/products/`)
-          } else {
-            var res = await fetch(
-              `https://fakestoreapi.com/products/category/${value}`
-            )
-          }
-
-          const products = await res.json()
-          setProductList(products)
-        }}
-        placeholder="Select a filter"
-      >
-        <Option value="Reset">Select a filter</Option>
-        {categories.map((category) => (
-          <Option key={category} value={category}>
-            <span className="capitalize"> {category}</span>
-          </Option>
-        ))}
-      </Select>
-
-      <div
-        className={`grid grid-cols-${noOfTilesToShow} justify-items-center gap-1 p-4 hidden md:grid cursor-pointer`}
-      >
-        {productList.map((product) => (
-          <Link key={product.id} href={`/${product.id}`}>
-            <div className="grid justify-items-center m-2 py-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
-              <Product
-                key={product.id}
-                image={product.image}
-                title={product.title}
-                price={product.price}
-                description={product.description}
-              />
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div
-        className={`grid grid-cols-2 justify-items-center gap-1 p-4 md:hidden grid cursor-pointer`}
-      >
-        {productList.map((product) => (
-          <Link key={product.id} href={`/${product.id}`} passHref>
-            <div>
-              <Product
-                key={product.id}
-                image={product.image}
-                title={product.title}
-                price={product.price}
-                description={product.description}
-              />
-            </div>
-          </Link>
-        ))}
-      </div>
+      <Banner position={"bottom"} />
     </div>
   )
 }
