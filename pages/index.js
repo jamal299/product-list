@@ -11,17 +11,24 @@ export default function Home({ products, categories }) {
   const [noOfTilesToShow, setnoOfTilesToShow] = useState(6)
   const tileOptions = [2, 3, 4, 5, 6]
   const [sortOrder, setSort] = useState("asc")
+  const [category, setSelectedCategory] = useState("Reset")
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch(
-        `https://fakestoreapi.com/products?sort=${sortOrder}`
-      )
+      if (category === "Reset") {
+        var res = await fetch(
+          `https://fakestoreapi.com/products/?sort=${sortOrder}`
+        )
+      } else {
+        var res = await fetch(
+          `https://fakestoreapi.com/products/category/${category}?sort=${sortOrder}`
+        )
+      }
       const products = await res.json()
       setProductList(products)
     }
     fetchProducts()
-  }, [sortOrder])
+  }, [sortOrder, category])
 
   const returnTiles = (numberOfTiles) => {
     const fields = []
@@ -82,16 +89,7 @@ export default function Home({ products, categories }) {
             width: 200,
           }}
           onChange={async (value) => {
-            if (value === "Reset") {
-              var res = await fetch(`https://fakestoreapi.com/products/`)
-            } else {
-              var res = await fetch(
-                `https://fakestoreapi.com/products/category/${value}`
-              )
-            }
-
-            const products = await res.json()
-            setProductList(products)
+            setSelectedCategory(value)
           }}
           placeholder="Select a filter"
         >
