@@ -11,8 +11,8 @@ const Banner = ({ position }) => {
   }, [])
   return (
     <div
-      className={`bg-indigo-600 dark:bg-slate-800 ${
-        position === "top" ? "sticky top-0 z-10" : "sticky bottom-0 z-10"
+      className={`bg-indigo-600 dark:bg-slate-800 w-full ${
+        position === "top" ? "fixed top-0 z-10" : "fixed bottom-0 z-10"
       }`}
     >
       <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">

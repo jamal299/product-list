@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Select } from "antd"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { BiUpArrowAlt, BiDownArrowAlt } from "react-icons/bi"
 import Product from "../components/Products"
 import Banner from "../components/Banner"
@@ -12,7 +13,10 @@ export default function Home({ products, categories }) {
   const tileOptions = [2, 3, 4, 5, 6]
   const [sortOrder, setSort] = useState("asc")
   const [category, setSelectedCategory] = useState("Reset")
+  const router = useRouter()
 
+  const { query } = router
+  console.log({ query })
   useEffect(() => {
     const fetchProducts = async () => {
       if (category === "Reset") {
@@ -49,8 +53,8 @@ export default function Home({ products, categories }) {
 
   return (
     <div>
-      <Banner position={"top"} />
-      <div className="p-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
+      <Banner position={query.banner === "bottom" ? "bottom" : "top"} />
+      <div className="py-16 px-4 flex flex-col items-center w-full dark:bg-gray-900 dark:text-white h-screen overflow-scroll">
         <div className="hidden md:block">
           <div className="flex w-full">
             Select Layout
@@ -136,7 +140,6 @@ export default function Home({ products, categories }) {
           ))}
         </div>
       </div>
-      <Banner position={"bottom"} />
     </div>
   )
 }
